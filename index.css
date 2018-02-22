@@ -4,14 +4,43 @@
   padding: 0;
 }
 
+html {
+  font-size: 62.5%;
+}
+
+/* iPhone 4 range */
+
+@media (min-width:0px) and (max-width:480px) {
+  html {
+    font-size: 1.0em;
+  }
+}
+
+/* larger than iPhone landscape, an in the iPad portrait range */
+
+@media (min-width:481px) and (max-width:768px) {
+  html {
+    font-size: 1.1em;
+  }
+}
+
+/* bigger than iPad portrait  */
+
+@media (min-width:769px) {
+  html {
+    font-size: 1.2em;
+  }
+}
+
 body {
   font-family: 'Acme', sans-serif;
+  background-color: rgba(228, 216, 192, 0.651);
 }
 
 main {
   margin: 0 auto;
-  width: 800px;
-  margin-top: 60px;
+  width: 80%;
+  margin-top: 30px;
 }
 
 legend {
@@ -21,15 +50,17 @@ legend {
 }
 
 fieldset {
-  padding: 20px;
-  margin: 20px 0;
+  padding: 15px;
+  margin: 20px auto;
   border-color: darkgray;
+  width: 50%;
+
 }
 
 input[type='text'],
 button {
-    height: 40px;
-    margin: 10px 0;
+  height: 35px;
+  margin: 10px 0;
 }
 
 input[type='text'] {
@@ -42,28 +73,118 @@ button {
   margin-left: 5px;
   border-radius: 5px;
   border: none;
-  background-color: darkgreen;
+  background-color: rgb(100, 130, 134);
   color: white;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  font-family: sans-serif;
 }
 
 button:hover,
-button:focus {
+button:focus,
+.prev:hover,
+.prev:focus,
+.next:hover,
+.next:hover {
   background-color: #332c2f;
   color: white;
 }
 
-.framing {
-  border: 1px solid black;
+/*.framing {
+  border: 21px solid black;
   border-radius: 5px;
   margin-bottom: 15px;
+}*/
+
+.channel {
+  /*margin: 20px;*/
+  height: 300px;
+  margin-bottom: 70px;
+}
+
+.channel-container {
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 
 .img-link,
-.title {
-  margin-left: 25px;
-  width: 80%;
+.title,
+.channel-link {
+  /*margin-left: 25px;*/
+  /*width: 75%;*/
+  text-align: center;
 }
 
+.title,
+.channel-link {
+  margin-top: 10px;
+}
+
+.thumb {
+  /*width: 180px;
+  height: 140px;*/
+  width: 80%;
+  height: 80%;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* unvisited link */
+
+a:link {
+  color: darkblue;
+}
+
+/* visited link */
+
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+
+a:hover {
+  color: darkred;
+}
+
+/* selected link */
+
+a:active {
+  color: blue;
+}
+
+.nav-container {
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+h1 {  
+  display: inline;
+  margin: 0 50px;  
+}
+
+.prev,
+.next,
+.search-title {
+  padding: 10px;  
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.prev,
+.next {
+  background-color: rgb(100, 130, 134);
+  width: 100px;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: sans-serif;
+}
