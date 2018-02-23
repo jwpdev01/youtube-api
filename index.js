@@ -1,8 +1,10 @@
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/channel/";
 const YOUTUBE_API_KEY = "AIzaSyAFrScEUoPW6ZBrHIvuAeEDsplHAqS_gl0";
+const fieldName = '.js-query';
 let pageToken;
 let prevPageToken;
 let nextPageToken;
+let q;
 
 function keyWordsearch() {
         setupYouTubeSearch();
@@ -11,11 +13,13 @@ function keyWordsearch() {
 function setupYouTubeSearch() {
         $('#search-button').on('click', function (e) {
                 e.preventDefault();
+                q = getFieldValue(fieldName);
                 setupGAPIClient(e);
         });
 
         $('.nav-container').on('click', '.js-prev', function (e) {
                 e.preventDefault();
+                setFieldValue(fieldName, q);
                 pageToken = prevPageToken;
                 setupGAPIClient(e);
         });
@@ -23,6 +27,7 @@ function setupYouTubeSearch() {
         $('.nav-container').on('click', '.js-next', function (e) {
                 e.preventDefault();
                 pageToken = nextPageToken;
+                setFieldValue(fieldName, q);
                 setupGAPIClient(e);
         });
 
@@ -42,17 +47,22 @@ function setupGAPIClient(e) {
         });
 }
 
-function makeRequest() {
-        let fieldName = '.js-query';
-        getResponse(getRequest(getQueryFieldValue(fieldName), 'snippet, id', 6, pageToken));
-        clearQueryFieldValue(fieldName);
+function makeRequest() {       
+        getResponse(getRequest(q, 'snippet, id', 6, pageToken));
+        clearFieldValue(fieldName);
 }
 
-function getQueryFieldValue(className) {
+
+function setFieldValue(className, valueToSet) {
+         $(className).val(valueToSet);
+         return true;
+}
+
+function getFieldValue(className) {
         return $(className).val();
 }
 
-function clearQueryFieldValue(className) {
+function clearFieldValue(className) {
         $(className).val('');
         return true;
 }
@@ -75,8 +85,8 @@ function getResponse(request) {
                 prevPageToken = response.result.prevPageToken;
                 nextPageToken = response.result.nextPageToken;
                 console.log(response);
-
-                
+                        
+                        $('.nav-container').empty();
                         $(`<span class='nav-button prev js-prev'>Previous</span>
                         <span class='search-title'><h1>Search Results</h1></span>
                         <span class='nav-button next js-next'>Next</span>`).appendTo('.nav-container');
