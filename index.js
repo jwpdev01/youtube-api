@@ -14,17 +14,24 @@ function setupYouTubeSearch() {
                 setupGAPIClient(e);
         });
 
-        $('.js-prev').on('click', function(e) {
+        $('.nav-container').on('click', '.js-prev', function (e) {
                 e.preventDefault();
                 pageToken = prevPageToken;
                 setupGAPIClient(e);
         });
 
-        $('.js-next').on('click', function(e) {
+        $('.nav-container').on('click', '.js-next', function (e) {
                 e.preventDefault();
                 pageToken = nextPageToken;
                 setupGAPIClient(e);
         });
+
+       /** $(".js-video-button").modalVideo({
+                youtube: {
+                        controls: 0,
+                        nocookie: true
+                }
+        });**/
 }
 
 function setupGAPIClient(e) {
@@ -69,6 +76,13 @@ function getResponse(request) {
                 nextPageToken = response.result.nextPageToken;
                 console.log(response);
 
+                
+                        $(`<span class='nav-button prev js-prev'>Previous</span>
+                        <span class='search-title'><h1>Search Results</h1></span>
+                        <span class='nav-button next js-next'>Next</span>`).appendTo('.nav-container');
+                
+
+
                 searchResults.forEach(item => $('#results').append(`
                        <row>
                           <div class='channel col-4'>
@@ -81,6 +95,7 @@ function getResponse(request) {
                                 <div class='channel-link'>
                                   <a href="https://www.youtube.com/channel/${item.snippet.channelId}" target="_blank">Go to Channel</a>
                                 </div>
+                                <a href="#" class="js-video-button" data-video-id=${item.id.videoId}'>Play Video</a>
                             </div>
                         </div>
                        </row>
