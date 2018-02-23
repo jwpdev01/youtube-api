@@ -1,35 +1,34 @@
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/channel/";
 const YOUTUBE_API_KEY = "AIzaSyAFrScEUoPW6ZBrHIvuAeEDsplHAqS_gl0";
 let pageToken;
+let prevPageToken;
+let nextPageToken;
 
 function keyWordsearch() {
-        alert('inside keyword search');
         setupYouTubeSearch();
 }
 
 function setupYouTubeSearch() {
         $('#search-button').on('click', function (e) {
-                console.log('search button clicked');
+                e.preventDefault();
                 setupGAPIClient(e);
         });
 
         $('.js-prev').on('click', function(e) {
-                alert('prev');
-                console.log('prev button clicked');
+                e.preventDefault();
                 pageToken = prevPageToken;
                 setupGAPIClient(e);
         });
 
         $('.js-next').on('click', function(e) {
-                alert('next');
-                console.log('next button clicked');
+                e.preventDefault();
                 pageToken = nextPageToken;
                 setupGAPIClient(e);
         });
 }
 
 function setupGAPIClient(e) {
-        e.preventDefault();
+
         gapi.client.setApiKey(YOUTUBE_API_KEY);
         gapi.client.load('youtube', 'v3', function () {
                 makeRequest();
@@ -66,16 +65,9 @@ function getResponse(request) {
 
         request.execute(function (response) {
                 let searchResults = response.result.items;
-                let prevPageToken = response.result.prevPageToken;
-                let nextPageToken = response.result.nextPageToken;
+                prevPageToken = response.result.prevPageToken;
+                nextPageToken = response.result.nextPageToken;
                 console.log(response);
-
-                $('.nav-container').html(`
-                   <button class='nav-button prev js-prev'>Previous</button>
-                   <span class='search-title'><h1>Search Results</h1></span>
-                   <button class='nav-button next js-next'>Next</button>
-                `);
-
 
                 searchResults.forEach(item => $('#results').append(`
                        <row>
