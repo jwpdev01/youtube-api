@@ -1,39 +1,78 @@
 const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/channel/";
 const YOUTUBE_API_KEY = "AIzaSyAFrScEUoPW6ZBrHIvuAeEDsplHAqS_gl0";
+const fieldName = '.js-query';
+let pageToken;
+let prevPageToken;
+let nextPageToken;
+let q;
 
 function keyWordsearch() {
+        setupYouTubeSearch();
+}
+
+function setupYouTubeSearch() {
         $('#search-button').on('click', function (e) {
                 e.preventDefault();
-                gapi.client.setApiKey(YOUTUBE_API_KEY);
-                gapi.client.load('youtube', 'v3', function () {
-                        makeRequest();
-                });
-
+                q = getFieldValue(fieldName);
+                setupGAPIClient(e);
         });
 
+        $('.nav-container').on('click', '.js-prev', function (e) {
+                e.preventDefault();
+                setFieldValue(fieldName, q);
+                pageToken = prevPageToken;
+                setupGAPIClient(e);
+        });
 
+        $('.nav-container').on('click', '.js-next', function (e) {
+                e.preventDefault();
+                pageToken = nextPageToken;
+                setFieldValue(fieldName, q);
+                setupGAPIClient(e);
+        });
+
+       /** $(".js-video-button").modalVideo({
+                youtube: {
+                        controls: 0,
+                        nocookie: true
+                }
+        });**/
 }
 
-function makeRequest() {
-        let fieldName = '.js-query';
-        getResponse(getRequest(getQueryFieldValue(fieldName), 'snippet, id', 6));
-        clearQueryFieldValue(fieldName);
+function setupGAPIClient(e) {
+
+        gapi.client.setApiKey(YOUTUBE_API_KEY);
+        gapi.client.load('youtube', 'v3', function () {
+                makeRequest();
+        });
 }
 
-function getQueryFieldValue(className) {
+function makeRequest() {       
+        getResponse(getRequest(q, 'snippet, id', 6, pageToken));
+        clearFieldValue(fieldName);
+}
+
+
+function setFieldValue(className, valueToSet) {
+         $(className).val(valueToSet);
+         return true;
+}
+
+function getFieldValue(className) {
         return $(className).val();
 }
 
-function clearQueryFieldValue(className) {
+function clearFieldValue(className) {
         $(className).val('');
         return true;
 }
 
-function getRequest(q, paramPart, paramMaxResults) {
+function getRequest(q, paramPart, paramMaxResults, paramPageToken) {
 
         return gapi.client.youtube.search.list({
                 q: q,
                 part: paramPart,
+                pageToken: paramPageToken,
                 maxResults: paramMaxResults
         });
 }
@@ -43,8 +82,18 @@ function getResponse(request) {
 
         request.execute(function (response) {
                 let searchResults = response.result.items;
-                let channelId =
-                        searchResults.forEach(item => $('#results').append(`
+                prevPageToken = response.result.prevPageToken;
+                nextPageToken = response.result.nextPageToken;
+                console.log(response);
+                        
+                        $('.nav-container').empty();
+                        $(`<span class='nav-button prev js-prev'>Previous</span>
+                        <span class='search-title'><h1>Search Results</h1></span>
+                        <span class='nav-button next js-next'>Next</span>`).appendTo('.nav-container');
+                
+
+
+                searchResults.forEach(item => $('#results').append(`
                        <row>
                           <div class='channel col-4'>
                             <div class='channel-container'>
@@ -56,6 +105,7 @@ function getResponse(request) {
                                 <div class='channel-link'>
                                   <a href="https://www.youtube.com/channel/${item.snippet.channelId}" target="_blank">Go to Channel</a>
                                 </div>
+                                <a href="#" class="js-video-button" data-video-id=${item.id.videoId}'>Play Video</a>
                             </div>
                         </div>
                        </row>
