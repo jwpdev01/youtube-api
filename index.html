@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>James Pegram Youtube API Project</title>
     <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
-    <llink href="modal-video.min.ss" rel="stylesheet" type="text/css" />
     <link href="flex-grid.css" rel="stylesheet" type="text/css" />
     <link href="index.css" rel="stylesheet" type="text/css" />
   </head>
@@ -17,22 +16,20 @@
           <div id="buttons">
             <label> 
               <input id="query" class='js-query' placeholder="enter a value to search on..." type="text"/>
-              <button id="search-button">SEARCH</button>
+              <button class='nav-button'  id="search-button">SEARCH</button>
               </label>    
           </div>
           </fieldset>
         </form>
-   <div id="container">
+   <div id="parent-nav-container">
      <div class='nav-container'>
-      <!--<span class='nav-button prev js-prev'>Previous</span>
-      <span class='search-title'><h1>Search Results</h1></span>
-      <span class='nav-button next js-next'>Next</span>-->
     </div>
-     <ul id="results"></ul>
+     <div id="results"></div>
    </div> 
     
-   <script src="jquery-modal-video.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  
+
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"> </script>
     <script src="index.js"></script>
     </main>
