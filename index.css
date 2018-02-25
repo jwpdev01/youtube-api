@@ -34,7 +34,7 @@ html {
 
 body {
   font-family: 'Acme', sans-serif;
-  background-color: rgba(228, 216, 192, 0.651);
+  background-color: rgba(233, 229, 221, 0.651);
 }
 
 main {
@@ -73,7 +73,7 @@ button {
   margin-left: 5px;
   border-radius: 5px;
   border: none;
-  background-color: rgb(100, 130, 134);
+  background-color: rgb(110, 5, 5);
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -178,7 +178,7 @@ h1 {
 
 .prev,
 .next {
-  background-color: rgb(100, 130, 134);
+  background-color:  rgb(110, 5, 5);
   width: 100px;
   color: white;
   border-radius: 5px;
@@ -188,3 +188,5 @@ h1 {
   cursor: pointer;
   font-family: sans-serif;
 }
+
+

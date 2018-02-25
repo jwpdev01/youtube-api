@@ -7,6 +7,7 @@ let nextPageToken;
 let q;
 
 function keyWordsearch() {
+        $(".js-query").focus();
         setupYouTubeSearch();
 }
 
@@ -30,13 +31,6 @@ function setupYouTubeSearch() {
                 setFieldValue(fieldName, q);
                 setupGAPIClient(e);
         });
-
-       /** $(".js-video-button").modalVideo({
-                youtube: {
-                        controls: 0,
-                        nocookie: true
-                }
-        });**/
 }
 
 function setupGAPIClient(e) {
@@ -87,9 +81,9 @@ function getResponse(request) {
                 console.log(response);
                         
                         $('.nav-container').empty();
-                        $(`<span class='nav-button prev js-prev'>Previous</span>
-                        <span class='search-title'><h1>Search Results</h1></span>
-                        <span class='nav-button next js-next'>Next</span>`).appendTo('.nav-container');
+                        $(`<button class='nav-button prev js-prev'>Previous</button>
+                        <span class='nav-button search-title'><h1>Search Results</h1></span>
+                        <button class='nav-button next js-next'>Next</button>`).appendTo('.nav-container');
                 
 
 
@@ -99,13 +93,13 @@ function getResponse(request) {
                             <div class='channel-container'>
                                 <div class='img-link'>
                                   <a href="https://www.youtube.com/watch?v=${item.id.videoId}" target="_blank">
-                                  <img class="thumb" src="${item.snippet.thumbnails.high.url}" alt="No Image Available."></a>
+                                  <img class="thumb" src="${item.snippet.thumbnails.high.url}" alt=${item.snippet.description}">
+                                  </a>
                                 </div>
                                 <div class='title'>${item.snippet.title}</div>
                                 <div class='channel-link'>
                                   <a href="https://www.youtube.com/channel/${item.snippet.channelId}" target="_blank">Go to Channel</a>
                                 </div>
-                                <a href="#" class="js-video-button" data-video-id=${item.id.videoId}'>Play Video</a>
                             </div>
                         </div>
                        </row>
@@ -116,5 +110,22 @@ function getResponse(request) {
 function updateResults(item, index) {
         ('#results').append(`${item.snippet.title}`);
 }
+
+
+// Function to reveal lightbox and adding YouTube autoplay
+function revealVideo(div,video_id) {
+        var video = document.getElementById(video_id).src;
+        document.getElementById(video_id).src = video+'&autoplay=1'; // adding autoplay to the URL
+        document.getElementById(div).style.display = 'block';
+      }
+      
+      // Hiding the lightbox and removing YouTube autoplay
+      function hideVideo(div,video_id) {
+        var video = document.getElementById(video_id).src;
+        var cleaned = video.replace('&autoplay=1',''); // removing autoplay form url
+        document.getElementById(video_id).src = cleaned;
+        document.getElementById(div).style.display = 'none';
+      }
+
 
 $(keyWordsearch);
